@@ -25,6 +25,10 @@
   box-sizing: border-box;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -829,12 +833,13 @@ main {
   color: #315274;
 }
 
-details {
+.session-details {
   margin-top: 0.9rem;
 }
 
-summary {
+.details-toggle {
   width: fit-content;
+  border: 0;
   border-radius: 999px;
   padding: 0.48rem 0.72rem;
   color: #fff;
@@ -843,14 +848,15 @@ summary {
   background: rgba(22, 131, 255, 0.24);
 }
 
-summary:focus-visible {
+.details-toggle:hover,
+.details-toggle:focus-visible {
   outline: 3px solid rgba(104, 221, 255, 0.58);
   outline-offset: 3px;
 }
 
-.session-card--break summary,
-.session-card--meal summary,
-.session-card--event summary {
+.session-card--break .details-toggle,
+.session-card--meal .details-toggle,
+.session-card--event .details-toggle {
   color: #07214a;
   background: rgba(22, 131, 255, 0.13);
 }

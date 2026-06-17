@@ -466,10 +466,10 @@ function detailHtml(details) {
     .join("");
 
   return `
-    <details>
-      <summary>세션 상세 보기</summary>
-      <div class="details-body">${paragraphs}</div>
-    </details>
+    <div class="session-details">
+      <button class="details-toggle" type="button" aria-expanded="false">세션 상세 보기</button>
+      <div class="details-body" hidden>${paragraphs}</div>
+    </div>
   `;
 }
 
@@ -610,10 +610,23 @@ function renderAgenda() {
     indexOffset += filteredSessions.filter((session) => session.time === slot).length;
     return markup;
   }).join("");
+  bindDetailsToggles();
 
   const sessionCount = filteredSessions.filter((session) => ["session", "workshop", "partner"].includes(session.type)).length;
   const trackLabel = activeTrack === "all" ? "전체" : trackLabels[activeTrack];
   resultCount.textContent = `${trackLabel} 기준 ${sessionCount}개 세션을 표시 중입니다.`;
+}
+
+function bindDetailsToggles() {
+  agendaList.querySelectorAll(".details-toggle").forEach((button) => {
+    button.addEventListener("click", () => {
+      const panel = button.nextElementSibling;
+      const isExpanded = button.getAttribute("aria-expanded") === "true";
+      button.setAttribute("aria-expanded", String(!isExpanded));
+      button.textContent = isExpanded ? "세션 상세 보기" : "세션 상세 닫기";
+      panel.hidden = isExpanded;
+    });
+  });
 }
 
 filterButtons.forEach((button) => {
