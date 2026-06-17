@@ -34,7 +34,7 @@ const sessions = [
   },
   {
     id: "a-02",
-    time: "09:40-10:00",
+    time: "09:40-10:20",
     start: "09:40",
     track: "A",
     type: "session",
@@ -144,7 +144,7 @@ const sessions = [
   },
   {
     id: "a-09",
-    time: "14:00-14:20",
+    time: "14:00-14:40",
     start: "14:00",
     track: "A",
     type: "partner",
@@ -155,7 +155,7 @@ const sessions = [
   },
   {
     id: "b-01",
-    time: "14:00-14:20",
+    time: "14:00-14:40",
     start: "14:00",
     track: "B",
     type: "partner",
@@ -166,7 +166,7 @@ const sessions = [
   },
   {
     id: "a-10",
-    time: "14:40-15:00",
+    time: "14:40-15:20",
     start: "14:40",
     track: "A",
     type: "session",
@@ -413,9 +413,17 @@ function timeRange(value) {
   return { start: minutes(start), end: minutes(end) };
 }
 
-function isLongSession(session) {
+function sessionDuration(session) {
   const range = timeRange(session.time);
-  return session.track !== "common" && range.end - range.start >= 60;
+  return range.end - range.start;
+}
+
+function isSpanningSession(session) {
+  return session.track !== "common" && sessionDuration(session) >= 40;
+}
+
+function isExtendedSession(session) {
+  return session.track !== "common" && sessionDuration(session) >= 60;
 }
 
 function overlaps(range, slotRange) {
@@ -476,20 +484,23 @@ function detailHtml(details) {
 function sessionCard(session, index) {
   const modifier = `session-card--${session.track}`;
   const typeModifier = `session-card--${session.type}`;
-  const longModifier = isLongSession(session) ? "session-card--long" : "";
+  const spanModifier = isSpanningSession(session) ? "session-card--span" : "";
+  const longModifier = isExtendedSession(session) ? "session-card--long" : "";
   const speaker = session.speaker ? `<p class="speaker">▶ ${escapeHtml(session.speaker)}</p>` : "";
-  const longLabel = isLongSession(session) ? `<span class="pill pill--accent">오전 통합 진행</span>` : "";
-  const longTimeline = isLongSession(session)
+  const spanLabel = isSpanningSession(session)
+    ? `<span class="pill pill--accent">${isExtendedSession(session) ? "오전 통합 진행" : `${sessionDuration(session)}분 세션`}</span>`
+    : "";
+  const longTimeline = isSpanningSession(session)
     ? `<div class="long-timeline" aria-hidden="true"><span>${escapeHtml(session.time.slice(0, 5))}</span><strong></strong><span>${escapeHtml(session.time.slice(-5))}</span></div>`
     : "";
 
   return `
-    <article class="session-card ${modifier} ${typeModifier} ${longModifier}" style="--delay: ${Math.min(index * 18, 240)}ms">
+    <article class="session-card ${modifier} ${typeModifier} ${spanModifier} ${longModifier}" style="--delay: ${Math.min(index * 18, 240)}ms">
       <div class="session-card__meta">
         <span class="pill">${escapeHtml(trackLabels[session.track])}</span>
         <span class="pill">${escapeHtml(typeLabels[session.type])}</span>
         <span class="pill">${escapeHtml(session.time)}</span>
-        ${longLabel}
+        ${spanLabel}
       </div>
       <h3>${escapeHtml(session.title)}</h3>
       ${speaker}
@@ -501,11 +512,12 @@ function sessionCard(session, index) {
 }
 
 function continuationCard(session, slot) {
+  const label = isExtendedSession(session) ? "오전 통합 세션" : `${sessionDuration(session)}분 세션`;
   return `
     <div class="continuation-card" aria-label="${escapeHtml(session.title)} ${escapeHtml(slot)} 진행 중">
       <span>${escapeHtml(trackLabels[session.track])} 진행 중</span>
-      <strong>Harness Engineering Workshop</strong>
-      <small>${escapeHtml(session.time)} · 오전 통합 세션</small>
+      <strong>${escapeHtml(session.title)}</strong>
+      <small>${escapeHtml(session.time)} · ${escapeHtml(label)}</small>
     </div>
   `;
 }
@@ -534,9 +546,9 @@ function trackColumnMarkup(track, slotSessions, activeLongSessions, slotRange, c
 
 function slotMarkup(slot, filteredSessions, indexOffset) {
   const slotRange = timeRange(slot);
-  const slotSessions = filteredSessions.filter((session) => !isLongSession(session) && session.time === slot);
+  const slotSessions = filteredSessions.filter((session) => !isSpanningSession(session) && session.time === slot);
   const activeLongSessions = filteredSessions
-    .filter(isLongSession)
+    .filter(isSpanningSession)
     .filter((session) => overlaps(timeRange(session.time), slotRange));
   const common = slotSessions.filter((session) => session.track === "common");
   let cardIndex = indexOffset;
@@ -571,11 +583,11 @@ function slotMarkup(slot, filteredSessions, indexOffset) {
 }
 
 function buildSlots(filteredSessions) {
-  const baseSessions = filteredSessions.filter((session) => !isLongSession(session));
+  const baseSessions = filteredSessions.filter((session) => !isSpanningSession(session));
   const slots = new Set(baseSessions.map((session) => session.time));
   const baseRanges = baseSessions.map((session) => timeRange(session.time));
 
-  filteredSessions.filter(isLongSession).forEach((session) => {
+  filteredSessions.filter(isSpanningSession).forEach((session) => {
     const range = timeRange(session.time);
     for (let start = range.start; start < range.end; start += 20) {
       const end = Math.min(start + 20, range.end);

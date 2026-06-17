@@ -665,6 +665,14 @@ main {
   border-top: 3px solid var(--cyan);
 }
 
+.session-card--span {
+  border-color: rgba(104, 221, 255, 0.34);
+  background:
+    radial-gradient(circle at 86% 10%, rgba(104, 221, 255, 0.14), transparent 16rem),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.04)),
+    rgba(6, 20, 48, 0.78);
+}
+
 .session-card--long {
   min-height: 300px;
   border-color: rgba(125, 247, 200, 0.42);
