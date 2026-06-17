@@ -29,8 +29,8 @@ const sessions = [
     type: "workshop",
     title: "GitHub Copilot으로 Harness Asset을 만들고 Harness Engineering을 경험하는 시간",
     speaker: "하네스톤",
-    summary: "GitHub Copilot Harness를 활용해 앱 개발과 하네스 어셋 개발을 경험하는 워크숍입니다.",
-    details: "트랙1 초급: 하네스를 활용한 앱 개발\n트랙2 심화: 하네스 어셋 개발\n\n초급 트랙에서는 'GHCP 하네스로 개발하기' 테이블 클래스를 진행합니다. 참석은 자유롭습니다.\n\n점심 및 행사장 정리 시간이 포함됩니다."
+    summary: "09:20부터 13:40까지 하나의 연속 워크숍으로 운영됩니다. 중간 입장 없이 흐름을 이어가며 Harness Asset 제작과 Harness Engineering을 경험합니다.",
+    details: "트랙1 초급: 하네스를 활용한 앱 개발\n트랙2 심화: 하네스 어셋 개발\n\nTrack B는 오전 전체를 사용하는 연속 워크숍입니다. 단계별 실습 흐름이 이어지므로 중간 입장보다는 시작 시간부터 참여하는 것을 권장합니다.\n\n초급 트랙에서는 'GHCP 하네스로 개발하기' 테이블 클래스를 진행합니다. 참석은 자유롭습니다.\n\n점심 및 행사장 정리 시간이 포함됩니다."
   },
   {
     id: "a-02",
@@ -69,11 +69,11 @@ const sessions = [
     id: "break-1",
     time: "11:00-11:20",
     start: "11:00",
-    track: "common",
+    track: "A",
     type: "break",
-    title: "Break",
+    title: "Break (Track A)",
     speaker: "",
-    summary: "휴식 및 다음 세션 이동 시간입니다.",
+    summary: "Track A 휴식 및 다음 세션 이동 시간입니다. Track B 워크숍은 계속 진행됩니다.",
     details: ""
   },
   {
@@ -501,10 +501,13 @@ function sessionCard(session, index) {
   const longModifier = isExtendedSession(session) ? "session-card--long" : "";
   const speaker = session.speaker ? `<p class="speaker">▶ ${escapeHtml(session.speaker)}</p>` : "";
   const spanLabel = isSpanningSession(session)
-    ? `<span class="pill pill--accent">${isExtendedSession(session) ? "오전 통합 진행" : `${sessionDuration(session)}분 세션`}</span>`
+    ? `<span class="pill pill--accent">${isExtendedSession(session) ? "오전 통합 · 중간 입장 없음" : `${sessionDuration(session)}분 세션`}</span>`
     : "";
   const longTimeline = isSpanningSession(session)
     ? `<div class="long-timeline" aria-hidden="true"><span>${escapeHtml(session.time.slice(0, 5))}</span><strong></strong><span>${escapeHtml(session.time.slice(-5))}</span></div>`
+    : "";
+  const entryNote = isExtendedSession(session)
+    ? `<p class="entry-note">연속 워크숍으로 운영되어 시작 시간부터 참여하는 세션입니다.</p>`
     : "";
 
   return `
@@ -518,6 +521,7 @@ function sessionCard(session, index) {
       <h3>${escapeHtml(session.title)}</h3>
       ${speaker}
       <p class="summary">${escapeHtml(session.summary)}</p>
+      ${entryNote}
       ${longTimeline}
       ${detailHtml(session.details)}
     </article>
@@ -525,10 +529,11 @@ function sessionCard(session, index) {
 }
 
 function continuationCard(session, slot) {
-  const label = isExtendedSession(session) ? "오전 통합 세션" : `${sessionDuration(session)}분 세션`;
+  const isLocked = isExtendedSession(session);
+  const label = isLocked ? "연속 워크숍 · 중간 입장 없음" : `${sessionDuration(session)}분 세션`;
   return `
-    <div class="continuation-card" aria-label="${escapeHtml(session.title)} ${escapeHtml(slot)} 진행 중">
-      <span>${escapeHtml(trackLabels[session.track])} 진행 중</span>
+    <div class="continuation-card ${isLocked ? "continuation-card--locked" : ""}" aria-label="${escapeHtml(session.title)} ${escapeHtml(slot)} 진행 중">
+      <span>${escapeHtml(trackLabels[session.track])} ${isLocked ? "연속 진행" : "진행 중"}</span>
       <strong>${escapeHtml(session.title)}</strong>
       <small>${escapeHtml(session.time)} · ${escapeHtml(label)}</small>
     </div>
