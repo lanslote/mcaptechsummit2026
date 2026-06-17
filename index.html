@@ -9,7 +9,7 @@
       content="2026 MCAPS Tech Summit 일정과 Track A, Track B 세션 정보를 확인할 수 있는 반응형 웹사이트입니다."
     >
     <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="%23061636"/><path d="M15 15h16v16H15zM35 15h14v14H35zM15 35h14v14H15zM35 37h6v6h-6zM45 35h4v14H35v-4h10z" fill="%2368ddff"/></svg>'>
-    <link rel="stylesheet" href="styles.css?v=20260617-3">
+    <link rel="stylesheet" href="styles.css?v=20260617-4">
   </head>
   <body>
     <a class="skip-link" href="#agenda">일정으로 바로가기</a>
@@ -23,7 +23,12 @@
           </span>
           <span>Microsoft</span>
         </div>
-        <a class="topbar__cta" href="#agenda">세션 보기</a>
+        <div class="topbar__actions">
+          <button class="topbar__cta topbar__cta--primary" id="current-session-button" type="button">
+            현재 진행중인 세션
+          </button>
+          <a class="topbar__cta" href="#agenda">세션 보기</a>
+        </div>
       </nav>
 
       <div class="hero__content">
@@ -42,7 +47,7 @@
             </div>
             <div>
               <dt>장소</dt>
-              <dd>L Tower Orche Hall (5F)</dd>
+              <dd>L Tower Orce Hall (5F)</dd>
             </div>
             <div>
               <dt>시간</dt>
@@ -91,7 +96,7 @@
           <figure class="qr-card">
             <div class="qr-frame">
               <img
-                data-src="assets/site-qr.png?v=20260617-3"
+                data-src="assets/site-qr.png?v=20260617-4"
                 alt="2026 MCAPS Tech Summit 웹사이트 접속 QR 코드"
                 hidden
               >
@@ -138,11 +143,11 @@
     </main>
 
     <footer class="site-footer">
-      <p>2026 MCAPS Tech Summit · L Tower Orche Hall (5F)</p>
+      <p>2026 MCAPS Tech Summit · L Tower Orce Hall (5F)</p>
       <p>Agenda source: Summer Tech summit 2026 Final Agenda.xlsx</p>
     </footer>
 
-    <script src="qr-config.js?v=20260617-3"></script>
-    <script src="script.js?v=20260617-3"></script>
+    <script src="qr-config.js?v=20260617-4"></script>
+    <script src="script.js?v=20260617-4"></script>
   </body>
 </html>

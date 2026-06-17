@@ -392,10 +392,12 @@ const typeLabels = {
 
 let activeTrack = "all";
 
+const EVENT_DATE = "2026-06-29";
 const agendaList = document.querySelector("#agenda-list");
 const resultCount = document.querySelector("#result-count");
 const searchInput = document.querySelector("#session-search");
 const filterButtons = document.querySelectorAll(".filter-button");
+const currentSessionButton = document.querySelector("#current-session-button");
 
 function minutes(time) {
   const [hour, minute] = time.split(":").map(Number);
@@ -432,6 +434,17 @@ function overlaps(range, slotRange) {
 
 function startsInSlot(range, slotRange) {
   return range.start === slotRange.start;
+}
+
+function isEventDate(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}` === EVENT_DATE;
+}
+
+function currentMinutes(date = new Date()) {
+  return date.getHours() * 60 + date.getMinutes();
 }
 
 function escapeHtml(value) {
@@ -569,7 +582,7 @@ function slotMarkup(slot, filteredSessions, indexOffset) {
   const itemCount = slotSessions.length + activeLongSessions.length;
 
   return `
-    <section class="time-row" aria-label="${escapeHtml(slot)} 일정">
+    <section class="time-row" data-start="${slotRange.start}" data-end="${slotRange.end}" tabindex="-1" aria-label="${escapeHtml(slot)} 일정">
       <div class="time-stamp">
         <time>${escapeHtml(slot)}</time>
         <span>${itemCount} item${itemCount > 1 ? "s" : ""}</span>
@@ -599,6 +612,15 @@ function buildSlots(filteredSessions) {
   });
 
   return [...slots].sort((a, b) => timeRange(a).start - timeRange(b).start || timeRange(a).end - timeRange(b).end);
+}
+
+function setActiveTrack(track) {
+  activeTrack = track;
+  filterButtons.forEach((item) => {
+    const isActive = item.dataset.track === track;
+    item.classList.toggle("is-active", isActive);
+    item.setAttribute("aria-pressed", String(isActive));
+  });
 }
 
 function renderAgenda() {
@@ -643,17 +665,43 @@ function bindDetailsToggles() {
 
 filterButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    activeTrack = button.dataset.track;
-    filterButtons.forEach((item) => {
-      const isActive = item === button;
-      item.classList.toggle("is-active", isActive);
-      item.setAttribute("aria-pressed", String(isActive));
-    });
+    setActiveTrack(button.dataset.track);
     renderAgenda();
   });
 });
 
 searchInput.addEventListener("input", renderAgenda);
+
+function findCurrentRow(now = new Date()) {
+  if (!isEventDate(now)) return null;
+  const nowMinutes = currentMinutes(now);
+  return [...agendaList.querySelectorAll(".time-row")].find((row) => (
+    Number(row.dataset.start) <= nowMinutes && nowMinutes < Number(row.dataset.end)
+  )) ?? null;
+}
+
+function focusCurrentSession(now = new Date()) {
+  setActiveTrack("all");
+  searchInput.value = "";
+  renderAgenda();
+
+  requestAnimationFrame(() => {
+    agendaList.querySelectorAll(".time-row.is-current").forEach((row) => row.classList.remove("is-current"));
+    const row = findCurrentRow(now);
+    if (!row) {
+      document.querySelector("#agenda")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      resultCount.textContent = "현재 진행 중인 세션이 없습니다. 전체 일정을 표시합니다.";
+      return;
+    }
+
+    row.classList.add("is-current");
+    row.scrollIntoView({ behavior: "smooth", block: "center" });
+    row.focus({ preventScroll: true });
+    resultCount.textContent = `${row.querySelector("time")?.textContent ?? ""} 현재 진행 중인 세션으로 이동했습니다.`;
+  });
+}
+
+currentSessionButton?.addEventListener("click", () => focusCurrentSession());
 
 async function initializeQrCode() {
   const image = document.querySelector(".qr-card img");
