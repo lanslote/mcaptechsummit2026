@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>2026 MCAPS Tech Summit</title>
+    <meta
+      name="description"
+      content="2026 MCAPS Tech Summit 일정과 Track A, Track B 세션 정보를 확인할 수 있는 반응형 웹사이트입니다."
+    >
+    <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="%23061636"/><path d="M15 15h16v16H15zM35 15h14v14H35zM15 35h14v14H15zM35 37h6v6h-6zM45 35h4v14H35v-4h10z" fill="%2368ddff"/></svg>'>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#agenda">일정으로 바로가기</a>
+
+    <header class="hero" id="top">
+      <div class="hero__ambient" aria-hidden="true"></div>
+      <nav class="topbar" aria-label="주요 정보">
+        <div class="brand" aria-label="Microsoft">
+          <span class="brand__mark" aria-hidden="true">
+            <span></span><span></span><span></span><span></span>
+          </span>
+          <span>Microsoft</span>
+        </div>
+        <a class="topbar__cta" href="#agenda">세션 보기</a>
+      </nav>
+
+      <div class="hero__content">
+        <div class="hero__copy">
+          <p class="eyebrow">2026 MCAPS Tech Summit</p>
+          <h1>Build the future.<br>Together.</h1>
+          <p class="hero__lead">
+            Agentic AI, Cloud, Security, Data, Copilot까지 하루 동안 깊게 탐색하는
+            기술 서밋입니다. 원하는 세션을 빠르게 찾고 트랙별 일정을 확인하세요.
+          </p>
+
+          <dl class="event-facts" aria-label="행사 정보">
+            <div>
+              <dt>일시</dt>
+              <dd>2026.06.29 (Mon)</dd>
+            </div>
+            <div>
+              <dt>장소</dt>
+              <dd>L Tower Orche Hall (5F)</dd>
+            </div>
+            <div>
+              <dt>시간</dt>
+              <dd>09:00 - 22:00</dd>
+            </div>
+          </dl>
+        </div>
+
+        <aside class="poster-card" aria-label="행사 포스터 미리보기">
+          <img src="assets/mcaps-tech-summit-poster.png" alt="2026 MCAPS Tech Summit 전체 일정 포스터">
+          <div class="poster-card__glow" aria-hidden="true"></div>
+        </aside>
+      </div>
+    </header>
+
+    <main>
+      <section class="overview" aria-labelledby="overview-title">
+        <div>
+          <p class="section-kicker">Summit at a glance</p>
+          <h2 id="overview-title">관심 있는 세션을 더 쉽게 찾도록 설계했습니다.</h2>
+        </div>
+        <div class="overview__stats" aria-label="행사 요약">
+          <div>
+            <strong>2</strong>
+            <span>Tracks</span>
+          </div>
+          <div>
+            <strong>27+</strong>
+            <span>Sessions</span>
+          </div>
+          <div>
+            <strong>13h</strong>
+            <span>Full day</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="share-section" aria-labelledby="share-title">
+        <div class="share-card">
+          <div>
+            <p class="section-kicker">Share</p>
+            <h2 id="share-title">현장에서 바로 스캔할 QR 코드</h2>
+            <p>
+              GitHub Pages 주소가 확정되면 이 영역에 접속용 QR 코드가 표시됩니다.
+              행사장 안내판, 메신저 공지, 모바일 공유에 바로 사용할 수 있습니다.
+            </p>
+          </div>
+          <figure class="qr-card">
+            <img
+              data-src="assets/site-qr.png"
+              alt="2026 MCAPS Tech Summit 웹사이트 접속 QR 코드"
+              hidden
+            >
+            <div class="qr-placeholder" aria-label="GitHub Pages 배포 후 QR 코드가 표시될 예정입니다.">
+              <span></span><span></span><span></span><span></span><span></span>
+              <strong>QR Ready</strong>
+            </div>
+            <figcaption>GitHub Pages 퍼블리싱 후 `assets/site-qr.png`로 교체</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="controls" aria-labelledby="agenda-title">
+        <div>
+          <p class="section-kicker">Agenda</p>
+          <h2 id="agenda-title">Track A / Track B 세션 일정</h2>
+          <p class="controls__hint">
+            트랙을 선택하거나 발표자, 세션 제목, 기술 키워드로 검색하세요.
+          </p>
+        </div>
+
+        <div class="controls__panel" role="search">
+          <label class="search-box" for="session-search">
+            <span>검색</span>
+            <input id="session-search" type="search" placeholder="예: Copilot, 보안, Fabric, Agent">
+          </label>
+
+          <div class="filter-group" aria-label="트랙 필터">
+            <button type="button" class="filter-button is-active" data-track="all" aria-pressed="true">전체</button>
+            <button type="button" class="filter-button" data-track="A" aria-pressed="false">Track A</button>
+            <button type="button" class="filter-button" data-track="B" aria-pressed="false">Track B</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="agenda-shell" id="agenda" aria-live="polite">
+        <div class="agenda-toolbar">
+          <p id="result-count">전체 세션을 표시 중입니다.</p>
+          <a href="#top">맨 위로</a>
+        </div>
+        <div class="agenda" id="agenda-list"></div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>2026 MCAPS Tech Summit · L Tower Orche Hall (5F)</p>
+      <p>Agenda source: Summer Tech summit 2026 Final Agenda.xlsx</p>
+    </footer>
+
+    <script src="qr-config.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
