@@ -50,11 +50,6 @@
             </div>
           </dl>
         </div>
-
-        <aside class="poster-card" aria-label="행사 포스터 미리보기">
-          <img src="assets/mcaps-tech-summit-poster.png" alt="2026 MCAPS Tech Summit 전체 일정 포스터">
-          <div class="poster-card__glow" aria-hidden="true"></div>
-        </aside>
       </div>
     </header>
 
@@ -82,25 +77,30 @@
 
       <section class="share-section" aria-labelledby="share-title">
         <div class="share-card">
-          <div>
+          <div class="share-card__copy">
             <p class="section-kicker">Share</p>
-            <h2 id="share-title">현장에서 바로 스캔할 QR 코드</h2>
+            <h2 id="share-title">모바일로 바로 열기</h2>
             <p>
-              GitHub Pages 주소가 확정되면 이 영역에 접속용 QR 코드가 표시됩니다.
-              행사장 안내판, 메신저 공지, 모바일 공유에 바로 사용할 수 있습니다.
+              행사장에서는 QR을 스캔해 전체 일정과 세션 상세를 바로 확인할 수 있습니다.
+              아래 주소는 메신저 공지나 안내 자료에도 그대로 사용할 수 있습니다.
             </p>
+            <a class="site-url" href="https://lanslote.github.io/mcaptechsummit2026/">
+              lanslote.github.io/mcaptechsummit2026
+            </a>
           </div>
           <figure class="qr-card">
-            <img
-              data-src="assets/site-qr.png"
-              alt="2026 MCAPS Tech Summit 웹사이트 접속 QR 코드"
-              hidden
-            >
-            <div class="qr-placeholder" aria-label="GitHub Pages 배포 후 QR 코드가 표시될 예정입니다.">
-              <span></span><span></span><span></span><span></span><span></span>
-              <strong>QR Ready</strong>
+            <div class="qr-frame">
+              <img
+                data-src="assets/site-qr.png"
+                alt="2026 MCAPS Tech Summit 웹사이트 접속 QR 코드"
+                hidden
+              >
+              <div class="qr-placeholder" aria-label="QR 코드가 표시될 예정입니다.">
+                <span></span><span></span><span></span><span></span><span></span>
+                <strong>QR</strong>
+              </div>
             </div>
-            <figcaption>GitHub Pages 퍼블리싱 후 `assets/site-qr.png`로 교체</figcaption>
+            <figcaption>Scan to open agenda</figcaption>
           </figure>
         </div>
       </section>

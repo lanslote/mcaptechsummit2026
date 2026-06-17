@@ -633,7 +633,13 @@ searchInput.addEventListener("input", renderAgenda);
 async function initializeQrCode() {
   const image = document.querySelector(".qr-card img");
   const placeholder = document.querySelector(".qr-placeholder");
+  const urlLink = document.querySelector(".site-url");
   const source = image?.dataset.src;
+
+  if (urlLink && window.MCAPS_SITE_URL) {
+    urlLink.href = window.MCAPS_SITE_URL;
+    urlLink.textContent = window.MCAPS_SITE_URL.replace(/^https?:\/\//, "").replace(/\/$/, "");
+  }
 
   if (!image || !placeholder || !source || !window.location.protocol.startsWith("http")) {
     return;
