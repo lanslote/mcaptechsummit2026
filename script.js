@@ -364,7 +364,7 @@ const sessions = [
   },
   {
     id: "dinner",
-    time: "18:20-22:00",
+    time: "18:20-21:00",
     start: "18:20",
     track: "common",
     type: "meal",
