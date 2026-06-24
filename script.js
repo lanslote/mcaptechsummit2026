@@ -313,10 +313,10 @@ const sessions = [
     start: "17:00",
     track: "B",
     type: "session",
-    title: "08. Agent Governance Framework 살펴보기",
-    speaker: "Seukhyun Ha",
-    summary: "Agent Governance의 전체 프로세스와 Microsoft 솔루션 매핑을 제시합니다.",
-    details: "많은 기업들이 Agent Governance 부재로 Agent 확산에 어려움을 겪고 있습니다.\n\n단순 Governance 필요 영역 나열이 아니라 전체 프로세스와 순서, 활용 가능한 Microsoft 솔루션을 매핑하여 Agent Governance의 큰 그림을 제시합니다. Agent 도입 가속화와 비즈니스 기회 확장을 목표로 합니다."
+    title: "08. M365 Copilot 도입의 숨겨진 리스크와 대응 전략 - IT 관리자 관점 실전 가이드",
+    speaker: "Seung Heo",
+    summary: "IT 관리자가 사전에 검토해야 할 핵심 포인트와 한계사항을 정리하고, 현실적인 도입 전략을 제시합니다.",
+    details: "많은 조직이 M365 Copilot 도입을 검토하지만, 실제 운영 환경에서는 단순한 기능 이해를 넘어 보안, 데이터 저장 구조, 제어 정책, API 제한 등 다양한 고려사항이 존재합니다.\n\n실제 이슈를 기반으로, IT 관리자가 사전에 검토해야 할 핵심 포인트와 한계사항을 정리하고, 현실적인 도입 전략을 제시합니다."
   },
   {
     id: "a-16",
@@ -336,7 +336,7 @@ const sessions = [
     track: "B",
     type: "session",
     title: "09. 현대자동차 Zero Trust 기반 보안 접근 혁신 PoC 사례",
-    speaker: "Young Shik Shin",
+    speaker: "Young Shik Shin, Jungwoo Kim",
     summary: "ZTNA 도입 배경, Zero Trust 접근 모델, 적용 시나리오와 확산 방향을 공유합니다.",
     details: "ZTNA 도입 배경과 보안 과제, Zero Trust 접근 모델 및 핵심 원칙, ZTNA 아키텍처와 적용 시나리오를 다룹니다.\n\n사용자, 디바이스, 앱 접근 제어 방식과 성과, Lessons Learned 및 확산 방향을 공유합니다."
   },
